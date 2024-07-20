@@ -18,7 +18,7 @@ I wanted to allow people to have this oppourtinity by utalizing BloxyBin's easy 
 
 1) Include the script by putting this somewhere in the script. (Recommended at the top or after the main script is defined)
 
-    `local KeySystem = loadstring(game:HttpGet("input later"))()`
+    `local KeySystem = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vortex-scripts/BloxyBin-Key-System/main/main.lua"))()`
 
 2) Then call the `Initialize` function by adding a few paramaters, and thats it!
 ```lua
@@ -42,7 +42,7 @@ Next, the paste should be a loadstring, leading to the main script. The script i
 Now for the actual script, it should be done something like this.
 
  ```lua
-local KeySystem = loadstring(game:HttpGet("input later"))()
+local KeySystem = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vortex-scripts/BloxyBin-Key-System/main/main.lua"))()
 
 local function main()
     print("Hello World")
