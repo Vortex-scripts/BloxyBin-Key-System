@@ -357,29 +357,19 @@ function main:Initialize(settings)
                 TweenService:Create(Script_Info, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0, 0)}):Play()
                 wait(1)
 
-                settings.Callback()
-
                 BloxybinKeySys:Destroy()
+
+                settings.Callback()
 
             elseif key_status == 400 or key_status == 0 then -- This is an invalid key / Key isn't for this script
 
                 TweenService:Create(Submit_Button, TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(109, 0, 0)}):Play()
-
-                TweenService:Create(Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = Submit.Position - UDim2.new(0.01, 0, 0, 0)}):Play()
+                TweenService:Create(Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.184, 0, 0.358, 0)}):Play()
                 wait(0.1)
-                TweenService:Create(Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = Submit.Position + UDim2.new(0.02, 0, 0, 0)}):Play()
+                TweenService:Create(Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.204, 0, 0.358, 0)}):Play()
                 wait(0.1)
-                TweenService:Create(Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = Submit.Position - UDim2.new(0.01, 0, 0, 0)}):Play()
+                TweenService:Create(Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.194, 0, 0.358, 0)}):Play()
                 TweenService:Create(Submit_Button, TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(59, 59, 59)}):Play()
-                wait(0.4)
-                Submit.Position = UDim2.new(0.194, 0, 0.358, 0)
-
-                -- TweenService:Create(Input, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0.383, 0)}):Play()
-                -- wait(0.25)
-                -- TweenService:Create(Image, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(1, 0, 0.2, 0)}):Play()
-                -- wait(0.25)
-                -- TweenService:Create(Script_Info, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0, 0)}):Play()
-                -- wait(1)
 
             elseif key_status == 404 then -- Something with the server
 
@@ -409,11 +399,11 @@ function main:Initialize(settings)
 
     local key_status = check_key(key, settings.Paste_ID)
 
-    if key_status == 200 then -- Key is correct
+    if key_status == 200 then
         settings.Callback()
-    elseif key_status == 400 or key_status == 0 then -- This is an invalid key / Key isn't for this script
+    elseif key_status == 400 or key_status == 0 then
         Make_Menu()
-    elseif key_status == 404 then -- Something with the server
+    elseif key_status == 404 then
         error("Error. Bloxybin didn't work")
     end
 end
