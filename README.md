@@ -1,3 +1,5 @@
+# ⚠️ SOME EXECUTORS HAVE BROKEN READ & WRITING FILE FUNCTIONS. KEYS MAY NOT SAVE ON CERTAIN EXECUTORS ⚠️
+
 # BloxyBin-Key-System
 A script that adds a Key System UI using BloxyBins Key System API.
 
