@@ -348,7 +348,7 @@ function main:Initialize(settings)
             local key_status = check_key(Key_Input.Text, settings.Paste_ID)
 
             if key_status == 200 then -- Key is correct
-                writefile("BloxyBinKeySystem/Keys" .. settings.Paste_ID .. ".txt", Key_Input.Text)
+                writefile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt", Key_Input.Text)
                     
                 TweenService:Create(Input, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0.383, 0)}):Play()
                 wait(0.25)
@@ -390,12 +390,12 @@ function main:Initialize(settings)
     end
 
 
-    if not isfile("BloxyBinKeySystem/Keys" .. settings.Paste_ID .. ".txt") then
+    if not isfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt") then
         Make_Menu()
         return
     end
 
-    local key = readfile("BloxyBinKeySystem/Keys" .. settings.Paste_ID .. ".txt")
+    local key = readfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt")
 
     local key_status = check_key(key, settings.Paste_ID)
 
