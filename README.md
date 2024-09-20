@@ -1,5 +1,7 @@
 # ⚠️ EXECUTORS THAT ARE ON EMULATORS MAY NOT SAVE KEYS. I DON'T KNOW WHY IT'S NOT MY FAULT ⚠️
 
+# Status: BloxyBin API has changed, working on getting new API information so I can update this script. Will not work right now!
+
 # BloxyBin-Key-System
 A script that adds a Key System UI using BloxyBins Key System API.
 
