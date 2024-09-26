@@ -1,6 +1,6 @@
 # ⚠️ EXECUTORS THAT ARE ON EMULATORS MAY NOT SAVE KEYS. I DON'T KNOW WHY IT'S NOT MY FAULT ⚠️
 
-# Status: The BloxyBin API is fine, the issue is that pastes that have keys enabled are forced to be private. I've talked with the owner of BloxBin and he's getting it fixed.
+# Status: Working
 
 # BloxyBin-Key-System
 A script that adds a Key System UI using BloxyBins Key System API.
