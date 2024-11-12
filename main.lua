@@ -53,7 +53,7 @@ function main:Initialize(settings)
                 if not isfile("BloxyBinKeySystem/Images/" .. settings.Paste_ID .. ".png")  then 
                     writefile("BloxyBinKeySystem/Images/" .. settings.Paste_ID .. ".png", game:HttpGet(full_response.paste.thumbnail)) -- This should get the thumbnail. But the thumbnail option of the API isn't available anymore.
                 end
-                thumbnail = getcustomasset("BloxyBinKeySystem/Images/" .. settings.Paste_ID .. ".png", game:HttpGet(full_response.paste.thumbnail))
+                thumbnail = getcustomasset("BloxyBinKeySystem/Images/" .. settings.Paste_ID .. ".png")
             end)
             if not suc then
                 thumbnail = "rbxassetid://13584686088"
