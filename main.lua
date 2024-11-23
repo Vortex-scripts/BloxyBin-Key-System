@@ -1,6 +1,6 @@
 -- Deletes a copy of the BloxyBin Key UI if it exists
-if _G.BloxyBinKeyUI then
-    _G.BloxyBinKeyUI:Destroy()
+if getgenv().BloxyBinKeyUI then
+    getgenv().BloxyBinKeyUI:Destroy()
 end
 
 -- Actual stript
