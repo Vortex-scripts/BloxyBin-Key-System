@@ -17,8 +17,12 @@ local function check_key(key_input, pasteID) -- Returns the status code.
 
     if res.StatusCode == 200 then -- Checks if server responded with no issues
         local response = HttpService:JSONDecode(res.Body).payload
-        if response.key ~= key_input then return false end -- Just an extra check, may not be needed
-        if response.paste.pasteID == pasteID then  -- This is important to check if the key actually works for your script. Make sure the pasteID variable is set correctly.
+        -- In case the server doesn't corretly delete expire keys, this insures the keys won't work if they're expired
+        if response.created + response.expires < workspace:GetServerTimeNow() then return 0 end 
+        if response.key ~= key_input then return 0 end -- Just an extra check, may not be needed
+        -- This is important to check if the key actually works for your script. Make sure the pasteID variable is set correctly.
+
+        if response.paste.pasteID == pasteID then
             return 200 -- The key is correct
         else
             return 0 -- The key is incorrect
@@ -63,7 +67,7 @@ function main:Initialize(settings)
         end
 
         local BloxybinKeySys = Instance.new("ScreenGui")
-        _G.BloxyBinKeyUI = BloxybinKeySys
+        getgenv().BloxyBinKeyUI = BloxybinKeySys
         local Main_Entry = Instance.new("Frame")
         local Main_UI_Corner = Instance.new("UICorner")
         local Input = Instance.new("Frame")
