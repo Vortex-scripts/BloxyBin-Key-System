@@ -94,7 +94,7 @@ local log_user = newcclosure(function(input_settings: table)
     end
 end)
 
-local main_init = newcclosure(function(settings: table)
+function main:Initialize(newcclosure(function(settings: table)
     print("Init 2")
     if settings.Paste_ID == nil then error("BloxyBin error. PasteID not set. Please set a Paste ID") return end
 
@@ -494,9 +494,6 @@ local main_init = newcclosure(function(settings: table)
         error("Error. Bloxybin didn't work")
     end
 end)
-
-
-function main:Initialize(settings: table) print("Init 1"); main_init(settings) end
 
 return main
 
