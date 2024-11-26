@@ -11,6 +11,7 @@
 
 
 -- Deletes a copy of the BloxyBin Key UI if it exists
+print("Test")
 if getgenv().BloxyBinKeyUI then
     getgenv().BloxyBinKeyUI:Destroy()
 end
