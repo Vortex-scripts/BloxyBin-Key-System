@@ -493,7 +493,7 @@ function main:Initialize(newcclosure(function(settings: table)
     elseif key_status == 404 then
         error("Error. Bloxybin didn't work")
     end
-end)
+end))
 
 return main
 
