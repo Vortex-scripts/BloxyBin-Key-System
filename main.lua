@@ -7,6 +7,7 @@
 ]]
 
 -- Testing: Attempting to make functions less detectable and tamperable by other scripts to ensure the key system works 100%
+-- May not actually need this, but just to see if it works. If it does work, I'll keep it.
 
 
 -- Deletes a copy of the BloxyBin Key UI if it exists
@@ -20,7 +21,7 @@ local HttpService = game:GetService("HttpService")
 local main = {}
 
 
-local function check_key(key_input, pasteID) -- Returns the status code.
+local check_key = newcclosure(function(key_input, pasteID) -- Returns the status code.
     local res = request({
         Url = "https://bloxybin.com/api/v1/paste/key?token=" .. tostring(key_input) .. "&raw=false",
         Method = "GET",
@@ -43,9 +44,9 @@ local function check_key(key_input, pasteID) -- Returns the status code.
     else
         return 404 -- Server error
     end
-end
+end)
 
-local function log_user(input_settings: table)
+local log_user = newcclosure(function(input_settings: table)
     if not input_settings.Enabled then return end -- If the Enabled variables is nil or false
 
     -- Logged values. Not sent anywhere unless the creator enabled them
@@ -60,35 +61,46 @@ local function log_user(input_settings: table)
 
     if not input_settings.URL then error("No link was provided. Please provided a link to enable logging.") return end
 
-    local final_arguments = "?"
+    if input_settings.Type == 1 then
+        local final_arguments = "?"
 
-    for log, enabled in pairs(input_settings.Log) do
-        if not table.find(logged, log) then continue end
-        if enabled then
-            final_arguments = final_arguments .. log .. "=" .. logged[log] .. "&"
+        for log, enabled in pairs(input_settings.Log) do
+            if not table.find(logged, log) then continue end
+            if enabled then
+                final_arguments = final_arguments .. log .. "=" .. logged[log] .. "&"
+            end
         end
+
+        local res = request({
+            URL = input_settings.URL .. final_arguments,
+            Method = "POST"
+        })
+
+        if res ~= 200 then
+            error("Error occoured when logging user info.")
+        end
+    elseif input_settings.Type == 2 then
+        local final_body = {}
+
+        for log, enabled in pairs(input_settings.Log) do
+            if not table.find(logged, log) then continue end
+            if enabled then
+                final_body[log] = input_settings.Log[log]
+            end
+        end
+    else
+        error("Invalid Type. Either 1 (Arguments) or 2 (Body) are accepted!")
     end
+end)
 
-    local res = request({
-        URL = input_settings.URL .. final_arguments,
-        Method = "POST"
-    })
-
-    if res ~= 200 then
-        error("Error occoured when logging user info.")
-    end
-end
-
-
-function main:Initialize(settings: table)
-
+local main_init = newcclosure(function(settings: table)
     if settings.Paste_ID == nil then error("BloxyBin error. PasteID not set. Please set a Paste ID") return end
 
     if typeof(settings.Paste_ID) == "number" then
         settings.Paste_ID = tostring(settings.Paste_ID)
     end
 
-    local function Make_Menu()
+    local Make_Menu = newcclosure(function()
 
         local has_thumbnail
 
@@ -459,7 +471,7 @@ function main:Initialize(settings: table)
         wait(2.5)
         TweenService:Create(ErrorTextLabel, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
         
-    end
+    end)
 
 
     if not isfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt") then
@@ -479,7 +491,10 @@ function main:Initialize(settings: table)
     elseif key_status == 404 then
         error("Error. Bloxybin didn't work")
     end
-end
+end)
+
+
+function main:Initialize(settings: table) main_init(settings) end
 
 return main
 
@@ -495,6 +510,7 @@ KeySystem:Initialize({
         Enabled = true,
         URL = "logging URL",
         Bannable = true,
+        Type = {1, 2}
         Log = {
             HWID = true,
             IP = false,
