@@ -104,6 +104,7 @@ local main_init = newcclosure(function(settings: table)
 
     local Make_Menu = newcclosure(function()
 
+        print("MMM")
         local has_thumbnail
 
         local res = request({
@@ -475,6 +476,7 @@ local main_init = newcclosure(function(settings: table)
         
     end)
 
+    print("MM")
 
     if not isfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt") then
         Make_Menu()
