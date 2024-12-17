@@ -6,10 +6,14 @@
     THIS BRANCH IS MEANT TO SHOW ACTIVE DEVELOPMENT OF THE BLOXYBIN KEY SYSTEM, AND GIVE SUGGESTIONS, NOT TO USE IT IN ACTIVE SCRIPTS!
 ]]
 
--- Testing: Attempting to make functions less detectable and tamperable by other scripts to ensure the key system works 100%
--- May not actually need this, but just to see if it works. If it does work, I'll keep it.
+-- Testing: Will be re-doing the system, allowing for devs to house the scripts on there own server for better functionality.
 
+--[[
 
+How it will work:
+    1) 
+
+]]
 -- Deletes a copy of the BloxyBin Key UI if it exists
 if getgenv().BloxyBinKeyUI then
     getgenv().BloxyBinKeyUI:Destroy()
@@ -97,8 +101,8 @@ local function log_user(input_settings: table)
 
         if res ~= 200 then
             error("Error occured when logging user info.")
+            return
         end
-
     else
         error("Invalid Type. Either 1 (Arguments) or 2 (Body) are accepted!")
     end
@@ -516,11 +520,14 @@ KeySystem:Initialize({
     Logging = {
         Enabled = true,
         URL = "logging URL",
-        Bannable = true,
-        Type = {1, 2} // 1 for url arguments, 2 for http body
+        Bannable = {
+            Enabled = true,
+            Error_Code = 403
+        },
+        Type = {1, 2} -- 1 for url arguments, 2 for http body
         Log = {
             HWID = true,
-            IP = false, // NOT RECCOMENDED FOR USER PRIVACY
+            IP = false, -- NOT RECCOMENDED FOR USER PRIVACY
             UserID = true,
             Username = true,
             Executor = true
@@ -530,4 +537,37 @@ KeySystem:Initialize({
         any_function()
     end
 })
+]]
+
+
+--[[
+New
+
+KeySystem:Initialize({
+    Script_Name = "Name of Script",     -- Optional
+    Script_Creator = "Script Creator",  -- Optional
+    Paste_ID = "Paste ID", -- Mandatory
+    Logging = {
+        Enabled = true,
+        URL = "logging URL",
+        Bannable = {
+            Enabled = true,
+            Error_Code = 403
+        },
+        Type = {1, 2} -- 1 for url arguments, 2 for http body
+        Log = {
+            HWID = true,
+            IP = false, -- NOT RECCOMENDED FOR USER PRIVACY
+            UserID = true,
+            Username = true,
+            Executor = true
+        }
+    },
+    
+    Callback = function()
+        any_function()
+    end
+})
+
+
 ]]
