@@ -11,7 +11,6 @@
 
 
 -- Deletes a copy of the BloxyBin Key UI if it exists
-print("Test")
 if getgenv().BloxyBinKeyUI then
     getgenv().BloxyBinKeyUI:Destroy()
 end
@@ -22,7 +21,7 @@ local HttpService = game:GetService("HttpService")
 local main = {}
 
 
-local check_key = newcclosure(function(key_input, pasteID) -- Returns the status code.
+local function check_key(key_input, pasteID) -- Returns the status code.
     local res = request({
         Url = "https://bloxybin.com/api/v1/paste/key?token=" .. tostring(key_input) .. "&raw=false",
         Method = "GET",
@@ -45,10 +44,12 @@ local check_key = newcclosure(function(key_input, pasteID) -- Returns the status
     else
         return 404 -- Server error
     end
-end)
+end
 
-local log_user = newcclosure(function(input_settings: table)
+local function log_user(input_settings: table)
     if not input_settings.Enabled then return end -- If the Enabled variables is nil or false
+
+    if not input_settings.URL then error("No link was provided. Please provided a link to enable logging.") return end
 
     -- Logged values. Not sent anywhere unless the creator enabled them
     -- These values also determine what can be logged. Custom logging may not come.
@@ -59,8 +60,6 @@ local log_user = newcclosure(function(input_settings: table)
         Username = game:GetService("Players"):GetNameFromUserIdAsync(game:GetService("Players").LocalPlayer.UserId),
         Executor = tostring(identifyexecutor())
     }
-
-    if not input_settings.URL then error("No link was provided. Please provided a link to enable logging.") return end
 
     if input_settings.Type == 1 then
         local final_arguments = "?"
@@ -89,13 +88,23 @@ local log_user = newcclosure(function(input_settings: table)
                 final_body[log] = input_settings.Log[log]
             end
         end
+
+        local res = request({
+            URL = input_settings.URL,
+            Method = "POST",
+            Body = final_body
+        })
+
+        if res ~= 200 then
+            error("Error occured when logging user info.")
+        end
+
     else
         error("Invalid Type. Either 1 (Arguments) or 2 (Body) are accepted!")
     end
-end)
+end
 
-local main_init = newcclosure(function(settings: table)
-    print("Init 2")
+function main:Initialize(settings: table)
     if settings.Paste_ID == nil then error("BloxyBin error. PasteID not set. Please set a Paste ID") return end
 
     if typeof(settings.Paste_ID) == "number" then
@@ -104,7 +113,6 @@ local main_init = newcclosure(function(settings: table)
 
     local Make_Menu = newcclosure(function()
 
-        print("MMM")
         local has_thumbnail
 
         local res = request({
@@ -476,8 +484,6 @@ local main_init = newcclosure(function(settings: table)
         
     end)
 
-    print("MM")
-
     if not isfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt") then
         Make_Menu()
         return
@@ -495,12 +501,6 @@ local main_init = newcclosure(function(settings: table)
     elseif key_status == 404 then
         error("Error. Bloxybin didn't work")
     end
-end)
-
-
-
-function main:Initialize(settings: table)
-    main_init(settings)
 end
 
 return main
@@ -517,10 +517,10 @@ KeySystem:Initialize({
         Enabled = true,
         URL = "logging URL",
         Bannable = true,
-        Type = {1, 2}
+        Type = {1, 2} // 1 for url arguments, 2 for http body
         Log = {
             HWID = true,
-            IP = false,
+            IP = false, // NOT RECCOMENDED FOR USER PRIVACY
             UserID = true,
             Username = true,
             Executor = true
