@@ -50,64 +50,6 @@ local function check_key(key_input, pasteID) -- Returns the status code.
     end
 end
 
-local function log_user(input_settings: table)
-    if not input_settings.Enabled then return end -- If the Enabled variables is nil or false
-
-    if not input_settings.URL then error("No link was provided. Please provided a link to enable logging.") return end
-
-    -- Logged values. Not sent anywhere unless the creator enabled them
-    -- These values also determine what can be logged. Custom logging may not come.
-    local logged = {
-        HWID = game:GetService("RbxAnalyticsService"):GetClientID(),
-        IP = game:HttpGet("https://api.ipify.org"),
-        UserID = game:GetService("Players").LocalPlayer.UserId,
-        Username = game:GetService("Players"):GetNameFromUserIdAsync(game:GetService("Players").LocalPlayer.UserId),
-        Executor = tostring(identifyexecutor())
-    }
-
-    if input_settings.Type == 1 then
-        local final_arguments = "?"
-
-        for log, enabled in pairs(input_settings.Log) do
-            if not table.find(logged, log) then continue end
-            if enabled then
-                final_arguments = final_arguments .. log .. "=" .. logged[log] .. "&"
-            end
-        end
-
-        local res = request({
-            URL = input_settings.URL .. final_arguments,
-            Method = "POST"
-        })
-
-        if res ~= 200 then
-            error("Error occoured when logging user info.")
-        end
-    elseif input_settings.Type == 2 then
-        local final_body = {}
-
-        for log, enabled in pairs(input_settings.Log) do
-            if not table.find(logged, log) then continue end
-            if enabled then
-                final_body[log] = input_settings.Log[log]
-            end
-        end
-
-        local res = request({
-            URL = input_settings.URL,
-            Method = "POST",
-            Body = final_body
-        })
-
-        if res ~= 200 then
-            error("Error occured when logging user info.")
-            return
-        end
-    else
-        error("Invalid Type. Either 1 (Arguments) or 2 (Body) are accepted!")
-    end
-end
-
 function main:Initialize(settings: table)
     if settings.Paste_ID == nil then error("BloxyBin error. PasteID not set. Please set a Paste ID") return end
 
@@ -445,8 +387,6 @@ function main:Initialize(settings: table)
 
             if key_status == 200 then -- Key is correct
 
-                log_user(settings.Logging)
-
                 writefile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt", Key_Input.Text)
                     
                 TweenService:Create(Input, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0.383, 0)}):Play()
@@ -498,7 +438,6 @@ function main:Initialize(settings: table)
     local key_status = check_key(key, settings.Paste_ID)
 
     if key_status == 200 then
-        log_user(settings.Logging)
         settings.Callback()
     elseif key_status == 400 or key_status == 0 then
         Make_Menu()
@@ -517,57 +456,8 @@ KeySystem:Initialize({
     Script_Name = "Name of Script",     -- Optional
     Script_Creator = "Script Creator",  -- Optional
     Paste_ID = "Paste ID", -- Mandatory
-    Logging = {
-        Enabled = true,
-        URL = "logging URL",
-        Bannable = {
-            Enabled = true,
-            Error_Code = 403
-        },
-        Type = {1, 2} -- 1 for url arguments, 2 for http body
-        Log = {
-            HWID = true,
-            IP = false, -- NOT RECCOMENDED FOR USER PRIVACY
-            UserID = true,
-            Username = true,
-            Executor = true
-        }
-    },
     Callback = function()
         any_function()
     end
 })
-]]
-
-
---[[
-New
-
-KeySystem:Initialize({
-    Script_Name = "Name of Script",     -- Optional
-    Script_Creator = "Script Creator",  -- Optional
-    Paste_ID = "Paste ID", -- Mandatory
-    Logging = {
-        Enabled = true,
-        URL = "logging URL",
-        Bannable = {
-            Enabled = true,
-            Error_Code = 403
-        },
-        Type = {1, 2} -- 1 for url arguments, 2 for http body
-        Log = {
-            HWID = true,
-            IP = false, -- NOT RECCOMENDED FOR USER PRIVACY
-            UserID = true,
-            Username = true,
-            Executor = true
-        }
-    },
-    
-    Callback = function()
-        any_function()
-    end
-})
-
-
 ]]
