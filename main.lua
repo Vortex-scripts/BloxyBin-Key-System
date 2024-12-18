@@ -6,14 +6,6 @@
     THIS BRANCH IS MEANT TO SHOW ACTIVE DEVELOPMENT OF THE BLOXYBIN KEY SYSTEM, AND GIVE SUGGESTIONS, NOT TO USE IT IN ACTIVE SCRIPTS!
 ]]
 
--- Testing: Will be re-doing the system, allowing for devs to house the scripts on there own server for better functionality.
-
---[[
-
-How it will work:
-    1) 
-
-]]
 -- Deletes a copy of the BloxyBin Key UI if it exists
 if getgenv().BloxyBinKeyUI then
     getgenv().BloxyBinKeyUI:Destroy()
