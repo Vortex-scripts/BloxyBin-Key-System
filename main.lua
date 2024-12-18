@@ -1,3 +1,19 @@
+--[[
+    THIS IS THE DEVELOPMENT BRANCH. HERE NEW FEATURES ARE BEING ACTIVELY TESTED.
+    PLEASE SWITCH TO THE MAIN BRANCH WHICH IS STABLE.
+
+    METHODS HERE MAY NOT WORK, WHICH IS WHY THEY'RE IN THE DEVELOPMENT BRANCH.
+    THIS BRANCH IS MEANT TO SHOW ACTIVE DEVELOPMENT OF THE BLOXYBIN KEY SYSTEM, AND GIVE SUGGESTIONS, NOT TO USE IT IN ACTIVE SCRIPTS!
+]]
+
+-- Testing: Will be re-doing the system, allowing for devs to house the scripts on there own server for better functionality.
+
+--[[
+
+How it will work:
+    1) 
+
+]]
 -- Deletes a copy of the BloxyBin Key UI if it exists
 if getgenv().BloxyBinKeyUI then
     getgenv().BloxyBinKeyUI:Destroy()
@@ -32,14 +48,16 @@ local function check_key(key_input, pasteID) -- Returns the status code.
     else
         return 404 -- Server error
     end
-
 end
 
-function main:Initialize(settings)
+function main:Initialize(settings: table)
+    if settings.Paste_ID == nil then error("BloxyBin error. PasteID not set. Please set a Paste ID") return end
 
-    if settings.Script_Creator == nil or settings.Script_Name == nil or settings.Paste_ID == nil then return end
+    if typeof(settings.Paste_ID) == "number" then
+        settings.Paste_ID = tostring(settings.Paste_ID)
+    end
 
-    local function Make_Menu()
+    local Make_Menu = newcclosure(function()
 
         local has_thumbnail
 
@@ -65,6 +83,22 @@ function main:Initialize(settings)
         else
             thumbnail = "rbxassetid://13584686088"
         end
+
+        -- local ScriptName = settings.Script_Name or full_response.paste.title
+        -- local ScriptCreator = settings.Script_Creator or game:HttpGet("https://bloxybin.com/api/v1/paste?" .. settings.Paste_ID).payload.creator.username
+
+        -- if not settings.Script_Name then
+        --     settings.Script_Name = full_response.paste.title
+        -- end
+
+        -- if not settings.Script_Creator then
+        --     local res2 = request({
+        --         Url = "https://bloxybin.com/api/v1/paste?" .. settings.Paste_ID,
+        --         Method = "GET"
+        --     })
+
+        --     settings.Script_Creator = res2.payload.creator.username
+        -- end
 
         local BloxybinKeySys = Instance.new("ScreenGui")
         getgenv().BloxyBinKeyUI = BloxybinKeySys
@@ -102,10 +136,10 @@ function main:Initialize(settings)
         end
         
 
+
         --Properties:
 
-
-        BloxybinKeySys.Name = "Bloxybin KeySys"
+        BloxybinKeySys.Name = randomString()
         BloxybinKeySys.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 
@@ -280,7 +314,7 @@ function main:Initialize(settings)
         Script_Name.Position = UDim2.new(-0.00358422939, 0, 0.0849056616, 0)
         Script_Name.Size = UDim2.new(0, 279, 0, 50)
         Script_Name.Font = Enum.Font.SourceSans
-        Script_Name.Text = settings.Script_Name
+        Script_Name.Text = settings.Script_Name or full_response.paste.title
         Script_Name.TextColor3 = Color3.fromRGB(255, 255, 255)
         Script_Name.TextScaled = true
         Script_Name.TextSize = 14.000
@@ -295,7 +329,7 @@ function main:Initialize(settings)
         Creator_Name.Position = UDim2.new(0, 0, 0.622641504, 0)
         Creator_Name.Size = UDim2.new(0, 191, 0, 25)
         Creator_Name.Font = Enum.Font.SourceSans
-        Creator_Name.Text = settings.Script_Creator
+        Creator_Name.Text = settings.Script_Creator or game:HttpGet("https://bloxybin.com/api/v1/paste?" .. settings.Paste_ID).payload.creator.username
         Creator_Name.TextColor3 = Color3.fromRGB(131, 131, 131)
         Creator_Name.TextScaled = true
         Creator_Name.TextSize = 14.000
@@ -352,6 +386,7 @@ function main:Initialize(settings)
             local key_status = check_key(Key_Input.Text, settings.Paste_ID)
 
             if key_status == 200 then -- Key is correct
+
                 writefile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt", Key_Input.Text)
                     
                 TweenService:Create(Input, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0.383, 0)}):Play()
@@ -391,8 +426,7 @@ function main:Initialize(settings)
         wait(2.5)
         TweenService:Create(ErrorTextLabel, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
         
-    end
-
+    end)
 
     if not isfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt") then
         Make_Menu()
@@ -413,3 +447,17 @@ function main:Initialize(settings)
 end
 
 return main
+
+
+--[[
+    KeySystem Input Temp.
+
+KeySystem:Initialize({
+    Script_Name = "Name of Script",     -- Optional
+    Script_Creator = "Script Creator",  -- Optional
+    Paste_ID = "Paste ID", -- Mandatory
+    Callback = function()
+        any_function()
+    end
+})
+]]
