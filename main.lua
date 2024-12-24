@@ -321,7 +321,7 @@ function main:Initialize(settings: table)
         Creator_Name.Position = UDim2.new(0, 0, 0.622641504, 0)
         Creator_Name.Size = UDim2.new(0, 191, 0, 25)
         Creator_Name.Font = Enum.Font.SourceSans
-        Creator_Name.Text = settings.Script_Creator or game:HttpGet("https://bloxybin.com/api/v1/paste?" .. settings.Paste_ID).payload.creator.username
+        Creator_Name.Text = settings.Script_Creator or full_response.creator.username
         Creator_Name.TextColor3 = Color3.fromRGB(131, 131, 131)
         Creator_Name.TextScaled = true
         Creator_Name.TextSize = 14.000
