@@ -47,6 +47,28 @@ Note that you do not have to give a value for `Script_Name` or `Script_Creator` 
 
 After all this setup, you would have a working key system that's integrated with the BloxyBin key system.
 
+## Bypass key
+
+If you want to easily continue developing your script or bypass your own keysystem, you can add a bypass key. Simply input the `Bypass_Key` string into the initialize function and add it to the file location `BloxyBinKeySystem/Keys/(Your paste ID).txt` in the workspace folder. The new table should look like this.
+```lua
+KeySystem:Initialize({
+    Script_Name = "Name of Script",
+    Script_Creator = "Script Creator",
+    Paste_ID = "Paste ID",
+    Bypass_Key = "Whatever string"
+    Callback = function()
+        any_function()
+    end
+})
+```
+
+The more complex the bypass key, the harder it is for people to guess. However, people can use other scripts to get the key or "crack" your script by reverse engeneering obfuscation, which is why I reccomend one of two option.
+
+1) Moving the file somewhere outside of workspace, only putting it in when you are loading your script
+2) Not including this into your script
+
+**Use this responsibly**
+
 ## Recommended & unrecommended setup
 I recommended that you first set your paste to have a Key (Obviously). You can create a key by [going here](https://bloxybin.com/account/dashboard?=key_api) after logging in to BloxyBin, and selecting a paste to have a key.
 

@@ -1,9 +1,5 @@
 --[[
-    THIS IS THE DEVELOPMENT BRANCH. HERE NEW FEATURES ARE BEING ACTIVELY TESTED.
-    PLEASE SWITCH TO THE MAIN BRANCH WHICH IS STABLE.
-
-    METHODS HERE MAY NOT WORK, WHICH IS WHY THEY'RE IN THE DEVELOPMENT BRANCH.
-    THIS BRANCH IS MEANT TO SHOW ACTIVE DEVELOPMENT OF THE BLOXYBIN KEY SYSTEM, AND GIVE SUGGESTIONS, NOT TO USE IT IN ACTIVE SCRIPTS!
+    PLEASE LOOK AT THE README FILE FOR DOCUMENTATION
 ]]
 
 -- Deletes a copy of the BloxyBin Key UI if it exists
@@ -17,7 +13,8 @@ local HttpService = game:GetService("HttpService")
 local main = {}
 
 
-local function check_key(key_input, pasteID) -- Returns the status code.
+local function check_key(key_input, pasteID) -- Returns the status code
+
     local res = request({
         Url = "https://bloxybin.com/api/v1/paste/key?token=" .. tostring(key_input) .. "&raw=false",
         Method = "GET",
@@ -65,7 +62,7 @@ function main:Initialize(settings: table)
         if has_thumbnail then
             local suc = pcall(function()
                 if not isfile("BloxyBinKeySystem/Images/" .. settings.Paste_ID .. ".png")  then 
-                    writefile("BloxyBinKeySystem/Images/" .. settings.Paste_ID .. ".png", game:HttpGet(full_response.paste.thumbnail)) -- This should get the thumbnail. But the thumbnail option of the API isn't available anymore.
+                    writefile("BloxyBinKeySystem/Images/" .. settings.Paste_ID .. ".png", game:HttpGet(full_response.paste.thumbnailLink))
                 end
                 thumbnail = getcustomasset("BloxyBinKeySystem/Images/" .. settings.Paste_ID .. ".png")
             end)
@@ -75,22 +72,6 @@ function main:Initialize(settings: table)
         else
             thumbnail = "rbxassetid://13584686088"
         end
-
-        -- local ScriptName = settings.Script_Name or full_response.paste.title
-        -- local ScriptCreator = settings.Script_Creator or game:HttpGet("https://bloxybin.com/api/v1/paste?" .. settings.Paste_ID).payload.creator.username
-
-        -- if not settings.Script_Name then
-        --     settings.Script_Name = full_response.paste.title
-        -- end
-
-        -- if not settings.Script_Creator then
-        --     local res2 = request({
-        --         Url = "https://bloxybin.com/api/v1/paste?" .. settings.Paste_ID,
-        --         Method = "GET"
-        --     })
-
-        --     settings.Script_Creator = res2.payload.creator.username
-        -- end
 
         local BloxybinKeySys = Instance.new("ScreenGui")
         getgenv().BloxyBinKeyUI = BloxybinKeySys
@@ -429,7 +410,7 @@ function main:Initialize(settings: table)
 
     local key_status = check_key(key, settings.Paste_ID)
 
-    if key_status == 200 then
+    if key_status == 200 or key == settings.Bypass_Key then
         settings.Callback()
     elseif key_status == 400 or key_status == 0 then
         Make_Menu()
@@ -447,7 +428,8 @@ return main
 KeySystem:Initialize({
     Script_Name = "Name of Script",     -- Optional
     Script_Creator = "Script Creator",  -- Optional
-    Paste_ID = "Paste ID", -- Mandatory
+    Paste_ID = "Paste ID", -- Mandatory,
+    Bypass_Key = "whatever"
     Callback = function()
         any_function()
     end
