@@ -408,9 +408,16 @@ function main:Initialize(settings: table)
 
     local key = readfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt")
 
+    if settings.Bypass_Key then
+        if key == settings.Bypass_Key then
+            settings.Callback()
+            return
+        end
+    end
+
     local key_status = check_key(key, settings.Paste_ID)
 
-    if key_status == 200 or key == settings.Bypass_Key then
+    if key_status == 200 then
         settings.Callback()
     elseif key_status == 400 or key_status == 0 then
         Make_Menu()
