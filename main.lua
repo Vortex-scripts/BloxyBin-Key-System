@@ -394,7 +394,7 @@ local function Make_Menu(settings)
     
 end
 
-function main:Initialize(settings: table)
+function main:Initialize(settings)
     if settings.Paste_ID == nil then error("BloxyBin error. PasteID not set. Please set a Paste ID") return end
 
     if typeof(settings.Paste_ID) == "number" then
