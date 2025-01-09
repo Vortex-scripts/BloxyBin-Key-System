@@ -33,7 +33,7 @@ local KeySystem = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vor
 
 2) Then call the `Initialize` function by adding a few paramaters, and thats it!
 ```lua
-KeySystem:Initialize({
+KeySystem.Initialize({
     Script_Name = "Name of Script",     -- Optional
     Script_Creator = "Script Creator",  -- Optional
     Paste_ID = "Paste ID",              -- THIS IS VERY IMPORTANT, MAKE SURE IT MATCHES YOUR PASTE ID
@@ -51,7 +51,7 @@ After all this setup, you would have a working key system that's integrated with
 
 If you want to easily continue developing your script or bypass your own keysystem, you can add a bypass key. Simply input the `Bypass_Key` string into the initialize function and add it to the file location `BloxyBinKeySystem/Keys/(Your paste ID).txt` in the workspace folder. The new table should look like this.
 ```lua
-KeySystem:Initialize({
+KeySystem.Initialize({
     Script_Name = "Name of Script",
     Script_Creator = "Script Creator",
     Paste_ID = "Paste ID",
@@ -84,7 +84,7 @@ local function main()
     -- Put all your main code in this function
 end
 
-KeySystem:Initialize({
+KeySystem.Initialize({
     Script_Name = "Name of Script",
     Script_Creator = "Script Creator",
     Paste_ID = "Paste ID",              
@@ -97,7 +97,7 @@ KeySystem:Initialize({
 I would, however, **NOT** recommend you do something like this.
  
  ```lua
- KeySystem:Initialize({
+ KeySystem.Initialize({
     Script_Name = "Name of Script",
     Script_Creator = "Script Creator",
     Paste_ID = "Paste ID",

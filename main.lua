@@ -364,7 +364,12 @@ local function Make_Menu(settings)
 
             BloxybinKeySys:Destroy()
 
-            settings.Callback()
+            local suc, msg = pcall(settings.Callback)
+            if not suc then
+                warn([[==============
+                Error. Key System couldn't run script!
+                Error:\n]] .. msg)
+            end
 
         elseif key_status == 400 or key_status == 0 then -- This is an invalid key / Key isn't for this script
 
@@ -394,7 +399,7 @@ local function Make_Menu(settings)
     
 end
 
-function main:Initialize(settings)
+function main.Initialize(settings)
     if settings.Paste_ID == nil then error("BloxyBin error. PasteID not set. Please set a Paste ID") return end
 
     if typeof(settings.Paste_ID) == "number" then
@@ -410,7 +415,12 @@ function main:Initialize(settings)
 
     if settings.Bypass_Key then
         if key == settings.Bypass_Key then
-            settings.Callback()
+            local suc, msg = pcall(settings.Callback)
+            if not suc then
+                warn([[==============
+                Error. Key System couldn't run script!
+                Error:\n]] .. msg)
+            end
             return
         end
     end
@@ -418,13 +428,19 @@ function main:Initialize(settings)
     local key_status = check_key(key, settings.Paste_ID)
 
     if key_status == 200 then
-        settings.Callback()
+        local suc, msg = pcall(settings.Callback)
+            if not suc then
+                warn([[==============
+                Error. Key System couldn't run script!
+                Error:\n]] .. msg)
+            end
     elseif key_status == 400 or key_status == 0 then
         Make_Menu(settings)
     elseif key_status == 404 then
         error("Error. Bloxybin didn't work")
     end
 end
+
 
 return main
 
