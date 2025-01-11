@@ -364,7 +364,7 @@ local function Make_Menu(settings)
 
             BloxybinKeySys:Destroy()
 
-            local suc, msg = pcall(settings.Callback)
+            local suc, msg = pcall(settings.Callback, Key_Input.Text)
             if not suc then
                 warn([[==============
                 Error. Key System couldn't run script!
@@ -415,7 +415,7 @@ main.Initialize = function(settings)
 
     if settings.Bypass_Key then
         if key == settings.Bypass_Key then
-            local suc, msg = pcall(settings.Callback)
+            local suc, msg = pcall(settings.Callback, key)
             if not suc then
                 warn([[==============
                 Error. Key System couldn't run script!
@@ -428,7 +428,7 @@ main.Initialize = function(settings)
     local key_status = check_key(key, settings.Paste_ID)
 
     if key_status == 200 then
-        local suc, msg = pcall(settings.Callback)
+        local suc, msg = pcall(settings.Callback, key)
             if not suc then
                 warn([[==============
                 Error. Key System couldn't run script!

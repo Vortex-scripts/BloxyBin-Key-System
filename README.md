@@ -37,13 +37,15 @@ KeySystem.Initialize({
     Script_Name = "Name of Script",     -- Optional
     Script_Creator = "Script Creator",  -- Optional
     Paste_ID = "Paste ID",              -- THIS IS VERY IMPORTANT, MAKE SURE IT MATCHES YOUR PASTE ID
-    Callback = function()
-        any_function()
+    Callback = function(key)
+        any_function(key)
     end
 })
 ```
 
 Note that you do not have to give a value for `Script_Name` or `Script_Creator` if you want to automatically get that information from Bloxybin. Simply leave it as nil (don't mention it in the table). Only the `Paste_ID` and `Callback` are necessary for the script to work.
+
+If you want to display key information yourself, then the script will automatically pass the variable `key` into the function, which was successfully used.
 
 After all this setup, you would have a working key system that's integrated with the BloxyBin key system.
 
@@ -56,8 +58,8 @@ KeySystem.Initialize({
     Script_Creator = "Script Creator",
     Paste_ID = "Paste ID",
     Bypass_Key = "Whatever string"
-    Callback = function()
-        any_function()
+    Callback = function(key)
+        any_function(key)
     end
 })
 ```
