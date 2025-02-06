@@ -91,16 +91,18 @@ local function Make_Menu(settings)
         KeySystem.Parent = CoreGui
     end
 
+    KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"].Text = ""
     KeySystem.Main_Entry.Image.Image.Image = thumbnail
+    KeySystem.Main_Entry.Image.Image.BackgroundTransparency = 1
     KeySystem.Main_Entry.Script_Info.Creator_Name.Text = settings.Script_Creator or full_response.creator.username
     KeySystem.Main_Entry.Script_Info.Script_Name.Text = settings.Script_Name or full_response.paste.title
 
     KeySystem.Main_Entry.Visible = true
 
     TweenService:Create(KeySystem.Main_Entry.Script_Info, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0, 0, 0, 0)}):Play()
-    wait(0.25)
+    task.wait(0.25)
     TweenService:Create(KeySystem.Main_Entry.Input, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0, 0, 0.383, 0)}):Play()
-    wait(0.25)
+    task.wait(0.25)
     TweenService:Create(KeySystem.Main_Entry.Image, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0.5, 0, 0.2, 0)}):Play()
 
     KeySystem.Main_Entry["UI Controls"]["Close Button"].Activated:Connect(function()
