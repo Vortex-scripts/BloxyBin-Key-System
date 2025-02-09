@@ -8,6 +8,7 @@ if getgenv().BloxyBinKeyUI then
 end
 
 -- Actual stript
+local GuiService = game:GetService("GuiService")
 local TweenService = game:GetService("TweenService")
 local HttpService = game:GetService("HttpService")
 local main = {}
@@ -66,6 +67,15 @@ local function Make_Menu(settings)
         thumbnail = "rbxassetid://13584686088"
     end
 
+    local function randomString() -- Used to give random names to the UI elements for added anti-detections
+        local length = math.random(10,20)
+        local array = {}
+        for i = 1, length do
+            array[i] = string.char(math.random(32, 126))
+        end
+        return table.concat(array)
+    end
+
     local rbxmSuite = loadstring(game:HttpGetAsync("https://github.com/richie0866/rbxm-suite/releases/latest/download/rbxm-suite.lua"))()
     local Path = rbxmSuite.download("Vortex-scripts/BloxyBin-Key-System@latest", "UI.rbxm")
 
@@ -91,59 +101,69 @@ local function Make_Menu(settings)
         KeySystem.Parent = CoreGui
     end
 
-    KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"].Text = ""
-    KeySystem.Main_Entry.Image.Image.Image = thumbnail
-    KeySystem.Main_Entry.Image.Image.BackgroundTransparency = 1
-    KeySystem.Main_Entry.Script_Info.Creator_Name.Text = settings.Script_Creator or full_response.creator.username
-    KeySystem.Main_Entry.Script_Info.Script_Name.Text = settings.Script_Name or full_response.paste.title
+    KeySystem.Name = randomString()
 
-    KeySystem.Main_Entry.Visible = true
+    local GUI_Elements = {}
 
-    TweenService:Create(KeySystem.Main_Entry.Script_Info, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0, 0, 0, 0)}):Play()
+    for i, v in pairs(KeySystem:GetDecendants()) do
+        GUI_Elements[i] = v
+        v.Name = randomString()
+    end
+
+    GUI_Elements["Error Text Label"].Text = ""
+    GUI_Elements["Image"].Image = thumbnail
+    GUI_Elements["Creator Name"].Text = settings.Script_Creator or full_response.creator.username
+    GUI_Elements["Script Name"].Text = settings.Script_Name or full_response.paste.title
+
+
+
+    GUI_Elements["Main Entry"].Visible = true
+
+    TweenService:Create(GUI_Elements["Script Info"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0, 0, 0, 0)}):Play()
     task.wait(0.25)
-    TweenService:Create(KeySystem.Main_Entry.Input, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0, 0, 0.383, 0)}):Play()
+    TweenService:Create(GUI_Elements["Input"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0, 0, 0.383, 0)}):Play()
     task.wait(0.25)
-    TweenService:Create(KeySystem.Main_Entry.Image, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0.5, 0, 0.2, 0)}):Play()
+    TweenService:Create(GUI_Elements["Image Frame"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(0.5, 0, 0.2, 0)}):Play()
 
-    KeySystem.Main_Entry["UI Controls"]["Close Button"].Activated:Connect(function()
+    GUI_Elements["Close Button"].Activated:Connect(function()
         KeySystem:Destroy()
         getgenv().BloxyBinKeyUI = nil
     end)
 
-    KeySystem.Main_Entry.Input.Buttons["Copy Link"].Button.Activated:Connect(function()
+    GUI_Elements["Copy Link Button"].Button.Activated:Connect(function()
         local suc = pcall(function()
             setclipboard("https://bloxybin.com/key/" .. settings.Paste_ID)
         end)
 
         if not suc then
 
-            KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"].Text = "Unable to copy link."
-            TweenService:Create(KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)}):Play()
+            GUI_Elements["Error Text Label"].Text = "Unable to copy link."
+            TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)}):Play()
             task.wait(1.5)
-            TweenService:Create(KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
+            TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
 
         end
     end)
 
-    KeySystem.Main_Entry.Input.Buttons.Submit.Button.Activated:Connect(function()
+    GUI_Elements["Submit Button"].Activated:Connect(function()
 
-        local key_status = check_key(KeySystem.Main_Entry.Input.Key_Input.Text, settings.Paste_ID)
+        local key_status = check_key(GUI_Elements["Key Input"].Text, settings.Paste_ID)
 
         if key_status == 200 then -- Key is correct
 
-            writefile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt", KeySystem.Main_Entry.Input.Key_Input.Text)
+            writefile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt", GUI_Elements["Key Input"].Text)
                 
-            TweenService:Create(KeySystem.Main_Entry.Input, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0.383, 0)}):Play()
+            TweenService:Create(GUI_Elements["Input"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0.383, 0)}):Play()
             task.wait(0.25)
-            TweenService:Create(KeySystem.Main_Entry.Image, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(1, 0, 0.2, 0)}):Play()
+            TweenService:Create(GUI_Elements["Image Frame"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(1, 0, 0.2, 0)}):Play()
             task.wait(0.25)
-            TweenService:Create(KeySystem.Main_Entry.Script_Info, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0, 0)}):Play()
+            TweenService:Create(GUI_Elements["Script Info"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0, 0)}):Play()
             task.wait(1)
 
             KeySystem:Destroy()
             getgenv().BloxyBinKeyUI = nil
 
-            local suc, msg = pcall(settings.Callback, KeySystem.Main_Entry.Input.Key_Input.Text)
+            local suc, msg = pcall(settings.Callback, GUI_Elements["Key Input"].Text)
             if not suc then
                 warn([[==============
                 Error. Key System couldn't run script!
@@ -152,29 +172,29 @@ local function Make_Menu(settings)
 
         elseif key_status == 400 or key_status == 0 then -- This is an invalid key / Key isn't for this script
 
-            TweenService:Create(KeySystem.Main_Entry.Input.Buttons.Submit.Button, TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(109, 0, 0)}):Play()
-            TweenService:Create(KeySystem.Main_Entry.Input.Buttons.Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.184, 0, 0.358, 0)}):Play()
+            TweenService:Create(GUI_Elements["Submit Button"], TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(109, 0, 0)}):Play()
+            TweenService:Create(GuiService["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.184, 0, 0.358, 0)}):Play()
             task.wait(0.1)
-            TweenService:Create(KeySystem.Main_Entry.Input.Buttons.Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.204, 0, 0.358, 0)}):Play()
+            TweenService:Create(GuiService["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.204, 0, 0.358, 0)}):Play()
             task.wait(0.1)
-            TweenService:Create(KeySystem.Main_Entry.Input.Buttons.Submit, TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.194, 0, 0.358, 0)}):Play()
-            TweenService:Create(KeySystem.Main_Entry.Input.Buttons.Submit.Button, TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(59, 59, 59)}):Play()
+            TweenService:Create(GuiService["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.194, 0, 0.358, 0)}):Play()
+            TweenService:Create(GUI_Elements["Submit Button"], TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(59, 59, 59)}):Play()
 
         elseif key_status == 404 then -- Something with the server
 
-            KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"].Text = "BloxyBin Servers errored! Please try again later."
-            TweenService:Create(KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)}):Play()
+            GUI_Elements["Error Text Label"].Text = "BloxyBin Servers errored! Please try again later."
+            TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)}):Play()
             task.wait(1.5)
-            TweenService:Create(KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
+            TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
 
         end
     end)
 
     task.wait(0.25)
-    KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"].Text = "Read & Write file functions may be broken on some executors."
-    TweenService:Create(KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)}):Play()
+    GUI_Elements["Error Text Label"].Text = "Read & Write file functions may be broken on some executors."
+    TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)}):Play()
     task.wait(2.5)
-    TweenService:Create(KeySystem.Main_Entry.Input["Error Text"]["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
+    TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
     
 end
 
