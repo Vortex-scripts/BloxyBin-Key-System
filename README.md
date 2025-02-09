@@ -1,24 +1,22 @@
-# ⚠️ SOME EMULATORS WILL NOT CORRECTLY WRITE FILES SUCH AS, BLUESTACKS (FROM MY EXPERIENCE). ⚠️
-
 # Status: Working
 
 # BloxyBin-Key-System
 A script that adds a Key System UI using BloxyBins Key System API.
 
 ## The purpose
-The purpose of me making this script was to help people monetize their script. What I mean by that is allowing creators to make money for their work, with the use of keys. The user generates a key, which in the process can earn you some amount of money, compensating you for your work!
+I made this script to help people monetize their scripts. By that, I mean allowing creators to make money for their work through the use of keys. The user generates a key, which can earn them some money and compensate them for their work!
  
-I wanted to allow people to have this oppourtinity by utalizing BloxyBin's easy to understand API which generates user keys, earns you some profit, and is completely free to use.
+I wanted to give people this opportunity by utilizing BloxyBin's easy-to-understand API, which generates user keys, earns you some profit, and is completely free to use.
 
 Please Note:
-* Security is not garuenteed. I will try to make this library as secure as possible, so bad actors couldn't bypass, but just be aware that bypasses or vulnerabilities may be present. I do not intend for these bypasses or vulnerabilities, and if one does occur I will try to patch it as fast as I could.
+* Security is not guaranteed. I will try to make this library as secure as possible so bad actors can't bypass it, but just be aware that bypasses or vulnerabilities may exist. I do not intend for these bypasses or vulnerabilities, and if one does occur, I will try to patch it as fast as I can.
 
 ## Features
  This Script includes features, such as:
  * A pre-made GUI
- * One function which does all the work for you
+ * One function that does all the work for you
  * Automatic Key Checking (With the use of BloxyBin)
- * Automatically save and uses saved keys
+ * Automatically save and use saved keys
  * And of course, it's open source.
 
 ## How to use it
@@ -31,7 +29,7 @@ Please Note:
 local KeySystem = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vortex-scripts/BloxyBin-Key-System/main/main.lua"))()
 ```
 
-2) Then call the `Initialize` function by adding a few paramaters, and thats it!
+2) Then call the `Initialize` function by adding a few parameters, and that's it!
 ```lua
 KeySystem.Initialize({
     Script_Name = "Name of Script",     -- Optional
@@ -47,7 +45,7 @@ Note that you do not have to give a value for `Script_Name` or `Script_Creator` 
 
 If you want to display key information yourself, then the script will automatically pass the variable `key` into the function, which was successfully used.
 
-After all this setup, you would have a working key system that's integrated with the BloxyBin key system.
+After all this setup, you will have a working key system integrated with the BloxyBin key system.
 
 ## Bypass key
 
@@ -64,17 +62,17 @@ KeySystem.Initialize({
 })
 ```
 
-The more complex the bypass key, the harder it is for people to guess. However, people can use other scripts to get the key or "crack" your script by reverse engeneering obfuscation, which is why I reccomend one of two option.
+The more complex the bypass key, the harder it is for people to guess. However, people can use other scripts to get the key or "crack" your script by reverse engineering obfuscation, which is why I recommend one of two options.
 
 1) Moving the file somewhere outside of workspace, only putting it in when you are loading your script
-2) Not including this into your script
+2) Not including this in your script
 
 **Use this responsibly**
 
 ## Recommended & unrecommended setup
-I recommended that you first set your paste to have a Key (Obviously). You can create a key by [going here](https://bloxybin.com/account/dashboard?=key_api) after logging in to BloxyBin, and selecting a paste to have a key.
+I recommended that you first set your paste to have a Key (Obviously). You can create a key by [going here](https://bloxybin.com/account/dashboard?=key_api) after logging in to BloxyBin and selecting a paste to have a key.
 
-Next, the paste should be a loadstring, leading to the main script. The script itself should be obfuscated since there is a key involved. If you don't have money for one, I suggest using [this Lua Obfuscator](https://luaobfuscator.com). It's free and does a good job obfuscating scripts.
+Next, the paste should be a loadstring, leading to the main script. The script itself should be obfuscated since there is a key involved. If you don't have money for one, I suggest using [this Lua Obfuscator](https://luaobfuscator.com). It's free and does a good job of obfuscating scripts.
 
 Now for the actual script, it should be done something like this.
 
