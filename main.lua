@@ -105,8 +105,8 @@ local function Make_Menu(settings)
 
     local GUI_Elements = {}
 
-    for i, v in pairs(KeySystem:GetDescendants()) do
-        GUI_Elements[i] = v
+    for _, v in pairs(KeySystem:GetDescendants()) do
+        GUI_Elements[v.Name] = v
         v.Name = randomString()
     end
 
@@ -130,7 +130,7 @@ local function Make_Menu(settings)
         getgenv().BloxyBinKeyUI = nil
     end)
 
-    GUI_Elements["Copy Link Button"].Button.Activated:Connect(function()
+    GUI_Elements["Copy Link Button"].Activated:Connect(function()
         local suc = pcall(function()
             setclipboard("https://bloxybin.com/key/" .. settings.Paste_ID)
         end)
@@ -173,11 +173,11 @@ local function Make_Menu(settings)
         elseif key_status == 400 or key_status == 0 then -- This is an invalid key / Key isn't for this script
 
             TweenService:Create(GUI_Elements["Submit Button"], TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(109, 0, 0)}):Play()
-            TweenService:Create(GuiService["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.184, 0, 0.358, 0)}):Play()
+            TweenService:Create(GUI_Elements["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.184, 0, 0.358, 0)}):Play()
             task.wait(0.1)
-            TweenService:Create(GuiService["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.204, 0, 0.358, 0)}):Play()
+            TweenService:Create(GUI_Elements["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.204, 0, 0.358, 0)}):Play()
             task.wait(0.1)
-            TweenService:Create(GuiService["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.194, 0, 0.358, 0)}):Play()
+            TweenService:Create(GUI_Elements["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.194, 0, 0.358, 0)}):Play()
             TweenService:Create(GUI_Elements["Submit Button"], TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(59, 59, 59)}):Play()
 
         elseif key_status == 404 then -- Something with the server
