@@ -105,7 +105,7 @@ local function Make_Menu(settings)
 
     local GUI_Elements = {}
 
-    for i, v in pairs(KeySystem:GetDecendants()) do
+    for i, v in pairs(KeySystem:GetDescendants()) do
         GUI_Elements[i] = v
         v.Name = randomString()
     end
