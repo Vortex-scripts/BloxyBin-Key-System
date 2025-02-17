@@ -13,6 +13,8 @@ local TweenService = game:GetService("TweenService")
 local HttpService = game:GetService("HttpService")
 local main = {}
 
+makefolder("BloxyBinKeySystem/Images")
+makefolder("BloxyBinKeySystem/Keys")
 
 local function check_key(key_input, pasteID) -- Returns the status code
 
