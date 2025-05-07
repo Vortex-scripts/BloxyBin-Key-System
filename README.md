@@ -118,7 +118,7 @@ Some example of what __**NOT**__ to do as a script creator.
 ## Exhibit A
 
 <p align="center">
-<img src="./ReadMe Things/bad1.png" alt="Image showing someone use no obfuscation and exposes their loadstring.", width="30%">
+<img src="./ReadMe Things/bad1.png" alt="Image showing someone use no obfuscation and exposes their loadstring.", width="80%">
 </p>
 
 This goes against 3 things.
