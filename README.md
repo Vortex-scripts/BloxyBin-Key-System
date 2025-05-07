@@ -108,3 +108,20 @@ I would, however, **NOT** recommend you do something like this.
  ```
  
 You shouldn't do this as a user can use something like HttpSpy to get the loadstring and bypass the key system. The only way to get around this is by obfuscating that script and adding the key system in there **OR THE BETTER OPTION**, putting it all into one script.
+
+
+
+# Hall of shame
+
+Some example of what __**NOT**__ to do as a script creator.
+
+## Exhibit A
+
+<p align="center">
+<img src="./ReadMe Things/bad1.png" alt="Image showing someone use no obfuscation and exposes their loadstring.", width="30%">
+</p>
+
+This goes against 3 things.
+1) The ID isn't actually the same as the link. It leads to a different paste that just has the pure loadstring. This person may not have known that you can edit pastes.
+2) They have no obfuscation for the keysystem, meaning someone can remove it.
+3) They use `loadstring`, when I said not to.

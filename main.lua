@@ -8,13 +8,18 @@ if getgenv().BloxyBinKeyUI then
 end
 
 -- Actual stript
-local GuiService = game:GetService("GuiService")
+
 local TweenService = game:GetService("TweenService")
 local HttpService = game:GetService("HttpService")
 local main = {}
 
 makefolder("BloxyBinKeySystem/Images")
-makefolder("BloxyBinKeySystem/Keys")
+
+if not isfile("BloxyBinKeySystem/Keys.json") then
+   makefile("BloxyBinKeySystem/Keys.json")
+end
+
+local Keys = HttpService:JSONDecode(readfile("BloxyBinKeySystem/Keys.json"))
 
 local function check_key(key_input, pasteID) -- Returns the status code
 
@@ -44,8 +49,6 @@ end
 
 local function Make_Menu(settings)
 
-    local has_thumbnail
-
     local res = request({
         Url = "https://bloxybin.com/api/v1/paste?id=" .. settings.Paste_ID,
         Method = "GET"
@@ -53,7 +56,7 @@ local function Make_Menu(settings)
 
     local full_response = HttpService:JSONDecode(res.Body).payload
     local thumbnail = nil
-    has_thumbnail = full_response.paste.hasThumbnail
+    local has_thumbnail = full_response.paste.hasThumbnail
 
     if has_thumbnail then
         local suc = pcall(function()
@@ -153,7 +156,9 @@ local function Make_Menu(settings)
 
         if key_status == 200 then -- Key is correct
 
-            writefile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt", GUI_Elements["Key Input"].Text)
+            Keys[settings.Paste_ID] = GUI_Elements["Key Input"].Text
+
+            writefile("BloxyBinKeySystem/Keys.json", HttpService:JSONEncode(Keys))
                 
             TweenService:Create(GUI_Elements["Input"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = UDim2.new(-0.5, 0, 0.383, 0)}):Play()
             task.wait(0.25)
@@ -207,12 +212,12 @@ main.Initialize = function(settings)
         settings.Paste_ID = tostring(settings.Paste_ID)
     end
 
-    if not isfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt") then
+    local key = Keys[settings.Paste_ID]
+
+    if not key then
         Make_Menu(settings)
         return
     end
-
-    local key = readfile("BloxyBinKeySystem/Keys/" .. settings.Paste_ID .. ".txt")
 
     if settings.Bypass_Key then
         if key == settings.Bypass_Key then
