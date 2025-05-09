@@ -16,7 +16,7 @@ local main = {}
 makefolder("BloxyBinKeySystem/Images")
 
 if not isfile("BloxyBinKeySystem/Keys.json") then
-   writefile("BloxyBinKeySystem/Keys.json", HttpService:JSONEncode({}))
+    writefile("BloxyBinKeySystem/Keys.json", HttpService:JSONEncode({}))
 end
 
 local Keys = HttpService:JSONDecode(readfile("BloxyBinKeySystem/Keys.json"))
