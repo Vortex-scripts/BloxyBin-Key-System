@@ -21,8 +21,7 @@ end
 
 local Keys = HttpService:JSONDecode(readfile("BloxyBinKeySystem/Keys.json"))
 
-local function check_key(key_input, pasteID) -- Returns the status code
-
+function main.check_key(key_input, pasteID)
     local res = request({
         Url = "https://bloxybin.com/api/v1/paste/key?token=" .. tostring(key_input) .. "&raw=false",
         Method = "GET",
@@ -152,9 +151,9 @@ local function Make_Menu(settings)
 
     GUI_Elements["Submit Button"].Activated:Connect(function()
 
-        local key_status = check_key(GUI_Elements["Key Input"].Text, settings.Paste_ID)
+        local key_status = main.check_key(GUI_Elements["Key Input"].Text, settings.Paste_ID)
 
-        if key_status == 200 then -- Key is correct
+        if key_status == 200 then
 
             Keys[settings.Paste_ID] = GUI_Elements["Key Input"].Text
 
@@ -177,7 +176,7 @@ local function Make_Menu(settings)
                 Error:\n]] .. msg)
             end
 
-        elseif key_status == 400 or key_status == 0 then -- This is an invalid key / Key isn't for this script
+        elseif key_status == 400 then
 
             TweenService:Create(GUI_Elements["Submit Button"], TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(109, 0, 0)}):Play()
             TweenService:Create(GUI_Elements["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.184, 0, 0.358, 0)}):Play()
@@ -187,7 +186,7 @@ local function Make_Menu(settings)
             TweenService:Create(GUI_Elements["Submit"], TweenInfo.new(0.4, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = UDim2.new(0.194, 0, 0.358, 0)}):Play()
             TweenService:Create(GUI_Elements["Submit Button"], TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {BackgroundColor3 = Color3.fromRGB(59, 59, 59)}):Play()
 
-        elseif key_status == 404 then -- Something with the server
+        elseif key_status == 404 then
 
             GUI_Elements["Error Text Label"].Text = "BloxyBin Servers errored! Please try again later."
             TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)}):Play()
@@ -196,13 +195,6 @@ local function Make_Menu(settings)
 
         end
     end)
-
-    task.wait(0.25)
-    GUI_Elements["Error Text Label"].Text = "Read & Write file functions may be broken on some executors."
-    TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = UDim2.new(0, 0, 0, 0)}):Play()
-    task.wait(2.5)
-    TweenService:Create(GUI_Elements["Error Text Label"], TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Position = UDim2.new(0, 0, 1, 0)}):Play()
-    
 end
 
 main.Initialize = function(settings)
@@ -231,7 +223,7 @@ main.Initialize = function(settings)
         end
     end
 
-    local key_status = check_key(key, settings.Paste_ID)
+    local key_status = main.check_key(key, settings.Paste_ID)
 
     if key_status == 200 then
         local suc, msg = pcall(settings.Callback, key)
@@ -258,7 +250,7 @@ KeySystem:Initialize({
     Script_Name = "Name of Script",     -- Optional
     Script_Creator = "Script Creator",  -- Optional
     Paste_ID = "Paste ID", -- Mandatory,
-    Bypass_Key = "whatever"
+    Bypass_Key = "whatever",
     Callback = function()
         any_function()
     end

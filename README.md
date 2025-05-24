@@ -109,7 +109,24 @@ I would, however, **NOT** recommend you do something like this.
  
 You shouldn't do this as a user can use something like HttpSpy to get the loadstring and bypass the key system. The only way to get around this is by obfuscating that script and adding the key system in there **OR THE BETTER OPTION**, putting it all into one script.
 
+## Modifying the key checking.
 
+If you want to add some better logging, or have custom keys for users, you can modify the `check_key` function to do just that. Simply change `KeySystem.check_key` to your own function. To do this, you need your own server with it's own logic. Look [here](https://bloxybin.com/keyapi) to see how to make the API calls to BloxyBin.
+
+**Remember**, this is not neccesary to make the library work. It's simply an extra feature that can be utalized by some advanced developers who want more control over the key checking.
+
+Example
+```lua
+KeySystem.check_key = function(key_input, pasteID)
+    -- Your logic
+end
+```
+This should return a number. Either 200, 400 or 404.
+1) 200: The key was successful.
+2) 400: The key expired, or was incorrect
+3) 404: The server failed to respond
+
+The server does not need to return the response of the BloxyBin API.
 
 # Hall of shame
 
