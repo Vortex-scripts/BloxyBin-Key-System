@@ -31,7 +31,7 @@ local function check_key(key_input, pasteID) -- Returns the status code
     if res.StatusCode == 200 then -- Checks if server responded with no issues
         local response = HttpService:JSONDecode(res.Body).payload
         -- In case the server doesn't corretly delete expire keys, this insures the keys won't work if they're expired
-        if response.created + response.expires < workspace:GetServerTimeNow() then return 0 end 
+        if response.created + response.expires < os.time() then return 400 end 
         if response.key ~= key_input then return 0 end -- Just an extra check, may not be needed
         -- This is important to check if the key actually works for your script. Make sure the pasteID variable is set correctly.
 
