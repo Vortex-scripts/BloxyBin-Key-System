@@ -49,7 +49,7 @@ After all this setup, you will have a working key system integrated with the Blo
 
 ## Bypass key
 
-If you want to easily continue developing your script or bypass your own keysystem, you can add a bypass key. Simply input the `Bypass_Key` string into the initialize function and add it to the file location `BloxyBinKeySystem/Keys/(Your paste ID).txt` in the workspace folder. The new table should look like this.
+If you want to easily continue developing your script or bypass your own keysystem, you can add a bypass key. Simply input the `Bypass_Key` string into the initialize function and add it to the file location `BloxyBinKeySystem/Keys.json` in the workspace folder. The new table should look like this.
 ```lua
 KeySystem.Initialize({
     Script_Name = "Name of Script",
@@ -61,6 +61,14 @@ KeySystem.Initialize({
     end
 })
 ```
+
+Example of the `Keys.json` file
+```json
+{
+    "Paste_ID": "Key"
+}
+```
+The `Paste_ID` **MUST** be a string.
 
 The more complex the bypass key, the harder it is for people to guess. However, people can use other scripts to get the key or "crack" your script by reverse engineering obfuscation, which is why I recommend one of two options.
 
