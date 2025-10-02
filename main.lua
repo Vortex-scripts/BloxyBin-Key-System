@@ -80,7 +80,7 @@ local function Make_Menu(settings)
         return table.concat(array)
     end
 
-    local rbxmSuite = loadstring(game:HttpGetAsync("https://github.com/richie0866/rbxm-suite/releases/latest/download/rbxm-suite.lua"))()
+    local rbxmSuite = loadstring(game:HttpGetAsync("https://github.com/richie0866/rbxm-suite/releases/latest/download/rbxm-suite.lua"), "UILoader")()
     local Path = rbxmSuite.download("Vortex-scripts/BloxyBin-Key-System@latest", "UI.rbxm")
 
     local KeySystem = rbxmSuite.launch(Path, {
@@ -173,7 +173,8 @@ local function Make_Menu(settings)
             if not suc then
                 warn([[==============
                 Error. Key System couldn't run script!
-                Error:\n]] .. msg)
+                Error:\n
+                ]] .. msg)
             end
 
         elseif key_status == 400 then
@@ -217,7 +218,8 @@ main.Initialize = function(settings)
             if not suc then
                 warn([[==============
                 Error. Key System couldn't run script!
-                Error:\n]] .. msg)
+                Error:\n
+                ]] .. msg)
             end
             return
         end
@@ -230,7 +232,8 @@ main.Initialize = function(settings)
             if not suc then
                 warn([[==============
                 Error. Key System couldn't run script!
-                Error:\n]] .. msg)
+                Error:\n
+                ]] .. msg)
             end
     elseif key_status == 400 or key_status == 0 then
         Make_Menu(settings)
